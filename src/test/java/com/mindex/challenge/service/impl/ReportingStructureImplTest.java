@@ -9,18 +9,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -28,11 +22,6 @@ import java.util.List;
 public class ReportingStructureImplTest {
 
     private String reportingstructureUrl;
-    private String employeeIdUrl;
-    private String employeeUrl;
-
-    @Autowired
-    private ReportingStructureService reportingStructureService;
 
     @LocalServerPort
     private int port;
@@ -43,11 +32,12 @@ public class ReportingStructureImplTest {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private ReportingStructureService reportingStructureService;
+
     @Before
     public void setup() {
         reportingstructureUrl = "http://localhost:" + port + "/reportingstructure/{id}";
-        employeeIdUrl = "http://localhost:" + port + "/employee/{id}";
-        employeeUrl = "http://localhost:" + port + "/employee";
     }
 
     @Test
@@ -55,10 +45,12 @@ public class ReportingStructureImplTest {
 
         ////using lennon (16a596ae-edd3-4847-99fe-c4518e82c86f) as he has 2 layers of reports.
         Employee employee = employeeService.read("16a596ae-edd3-4847-99fe-c4518e82c86f");
+        ReportingStructure reportingStructure = reportingStructureService.read("16a596ae-edd3-4847-99fe-c4518e82c86f");
+        int expectedReports = reportingStructure.getNumberOfReports();
 
-        ReportingStructure reportingStructure = restTemplate.getForEntity(reportingstructureUrl, ReportingStructure.class, "16a596ae-edd3-4847-99fe-c4518e82c86f").getBody();
-        assert reportingStructure != null;
-        assertEquals(4, reportingStructure.getNumberOfReports());
+        ReportingStructure actual = restTemplate.getForEntity(reportingstructureUrl, ReportingStructure.class, "16a596ae-edd3-4847-99fe-c4518e82c86f").getBody();
+        assert actual != null;
+        assertEquals(expectedReports, reportingStructure.getNumberOfReports());
         assertEmployeeEquivalence(employee, reportingStructure.getEmployee());
 
     }
@@ -68,61 +60,22 @@ public class ReportingStructureImplTest {
 
         //using Harrison (c0c2293d-16bd-4603-8e08-638a9d18b22c) as he has no reports.
         Employee employee = employeeService.read("c0c2293d-16bd-4603-8e08-638a9d18b22c");
+        ReportingStructure reportingStructure = reportingStructureService.read("c0c2293d-16bd-4603-8e08-638a9d18b22c");
+        int expectedReports = reportingStructure.getNumberOfReports();
 
-        ReportingStructure reportingStructure = restTemplate.getForEntity(reportingstructureUrl, ReportingStructure.class, "c0c2293d-16bd-4603-8e08-638a9d18b22c").getBody();
-        assert reportingStructure != null;
-        assertEquals(reportingStructure.getNumberOfReports(), 0);
+        ReportingStructure actual = restTemplate.getForEntity(reportingstructureUrl, ReportingStructure.class, "c0c2293d-16bd-4603-8e08-638a9d18b22c").getBody();
+        assert actual != null;
+        assertEquals(expectedReports, actual.getNumberOfReports());
         assertEmployeeEquivalence(employee, reportingStructure.getEmployee());
 
     }
 
-    //Wanted to test the case where an employee is a direct report of multiple employees.
-    //Current code does not seems to be set for that, causing infinite recursion.
-    // Leaving my code fragment here for reference.
-    /*@Test
-    public void read_DuplicateReports() {
+    /*
+     *Wanted to test the case where an employee is a direct report of multiple employees.
+     *Current code does not seems to be set for that, causing infinite recursion.
+     *I would have to change the code to allow for that, but I am not sure if that is the intended behavior.
+     */
 
-        //Create two employees, both that are direct reports of each other.
-        //This tests that if an employee is a direct report to multiple employees, they are only counted once.
-        Employee employee1 = new Employee();
-        employee1.setFirstName("John");
-        employee1.setLastName("Doe");
-        employee1.setDepartment("Engineering");
-        employee1.setPosition("Developer");
-
-        Employee employee2 = new Employee();
-        employee2.setFirstName("Jane");
-        employee2.setLastName("Doe");
-        employee2.setDepartment("Engineering");
-        employee2.setPosition("Developer");
-
-        List<Employee> directReports = new ArrayList<>();
-        directReports.add(employee2);
-        employee1.setDirectReports(directReports);
-
-        directReports = new ArrayList<>();
-        directReports.add(employee1);
-        employee2.setDirectReports(directReports);
-
-        //Create the employees in the database.
-        Employee createdEmployee1 = restTemplate.postForEntity(employeeUrl, employee1, Employee.class).getBody();
-        Employee createdEmployee2 = restTemplate.postForEntity(employeeUrl, employee2, Employee.class).getBody();
-
-        //Get the reporting structure for the first employee.
-        ReportingStructure reportingStructure = restTemplate.getForEntity(reportingstructureUrl, ReportingStructure.class, createdEmployee1.getEmployeeId()).getBody();
-        assert reportingStructure != null;
-        assertEquals(1, reportingStructure.getNumberOfReports());
-        assertEmployeeEquivalence(createdEmployee1, reportingStructure.getEmployee());
-
-        //Get the reporting structure for the second employee.
-        reportingStructure = restTemplate.getForEntity(reportingstructureUrl, ReportingStructure.class, createdEmployee2.getEmployeeId()).getBody();
-        assert reportingStructure != null;
-        assertEquals(1, reportingStructure.getNumberOfReports());
-        assertEmployeeEquivalence(createdEmployee2, reportingStructure.getEmployee());
-
-
-
-    }*/
 
     //Copy/paste of the defined method in EmployeeServiceImplTest.java.
     // I copied it here to avoid dependency between classes.
