@@ -17,6 +17,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+/**
+ * Test class for ReportingStructureServiceImpl
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ReportingStructureImplTest {
@@ -40,6 +43,9 @@ public class ReportingStructureImplTest {
         reportingstructureUrl = "http://localhost:" + port + "/reportingstructure/{id}";
     }
 
+    /**
+     * Test read operation for ReportingStructure
+     */
     @Test
     public void read_CorrectNumberOfReports() {
 
@@ -55,6 +61,9 @@ public class ReportingStructureImplTest {
 
     }
 
+    /**
+     * Test read operation for ReportingStructure
+     */
     @Test
     public void read_NullReports() {
 
@@ -76,9 +85,11 @@ public class ReportingStructureImplTest {
      *I would have to change the code to allow for that, but I am not sure if that is the intended behavior.
      */
 
-
-    //Copy/paste of the defined method in EmployeeServiceImplTest.java.
-    // I copied it here to avoid dependency between classes.
+    /**
+     * Helper method to assert the equivalence of two employees.
+     * @param expected The expected employee.
+     * @param actual The actual employee.
+     */
     private static void assertEmployeeEquivalence(Employee expected, Employee actual) {
         assertEquals(expected.getEmployeeId(), actual.getEmployeeId());
         assertEquals(expected.getFirstName(), actual.getFirstName());

@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service for Compensation data
+ */
 @Service
 public class CompensationServiceImpl implements CompensationService {
 
@@ -16,6 +19,11 @@ public class CompensationServiceImpl implements CompensationService {
     @Autowired
     private CompensationRepository compensationRepository;
 
+    /**
+     * Create compensation data
+     * @param compensation compensation
+     * @return compensation
+     */
     @Override
     public Compensation create(Compensation compensation) {
         LOG.debug("Creating compensation [{}]", compensation);
@@ -36,6 +44,11 @@ public class CompensationServiceImpl implements CompensationService {
         return compensation;
     }
 
+    /**
+     * Read compensation data
+     * @param id id
+     * @return compensation
+     */
     @Override
     public Compensation read(String id) {
         LOG.debug("Reading compensation with id [{}]", id);

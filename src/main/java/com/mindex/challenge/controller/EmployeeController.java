@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * REST controller for Employee operations.
+ */
 @RestController
 public class EmployeeController {
     private static final Logger LOG = LoggerFactory.getLogger(EmployeeController.class);
@@ -19,6 +22,11 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+    /**
+     * Creates a new Employee
+     * @param employee the employee to create
+     * @return the created employee
+     */
     @PostMapping("/employee")
     public Employee create(@RequestBody Employee employee) {
         LOG.debug("Received employee create request for [{}]", employee);
@@ -26,6 +34,11 @@ public class EmployeeController {
         return employeeService.create(employee);
     }
 
+    /**
+     * Reads an Employee
+     * @param id the employee id
+     * @return the employee
+     */
     @GetMapping("/employee/{id}")
     public Employee read(@PathVariable String id) {
         LOG.debug("Received employee create request for id [{}]", id);
@@ -33,6 +46,12 @@ public class EmployeeController {
         return employeeService.read(id);
     }
 
+    /**
+     * Updates an Employee
+     * @param id the employee id
+     * @param employee the employee to update
+     * @return the updated employee
+     */
     @PutMapping("/employee/{id}")
     public Employee update(@PathVariable String id, @RequestBody Employee employee) {
         LOG.debug("Received employee create request for id [{}] and employee [{}]", id, employee);

@@ -16,6 +16,9 @@ import java.text.SimpleDateFormat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+/**
+ * Test class for CompensationServiceImpl
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CompensationServiceImplTest {
@@ -35,6 +38,10 @@ public class CompensationServiceImplTest {
         compensationIdUrl = "http://localhost:" + port + "/compensation/{id}";
     }
 
+    /**
+     * Test create and read operations for Compensation
+     * @throws ParseException
+     */
     @Test
     public void testCreateRead() throws ParseException {
         Compensation testCompensation = new Compensation();
@@ -57,6 +64,11 @@ public class CompensationServiceImplTest {
         assertEquals(createdCompensation.getEmployeeId(), readCompensation.getEmployeeId());
     }
 
+    /**
+     * Helper method to assert equivalence between two Compensation objects
+     * @param expected Expected Compensation object
+     * @param actual Actual Compensation object
+     */
     private static void assertCompensationEquivalence(Compensation expected, Compensation actual) {
         assertEquals(expected.getEmployeeId(), actual.getEmployeeId());
         assertEquals(expected.getSalary(), actual.getSalary(), 0.0001);

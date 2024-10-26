@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
 
+/**
+ * Service for Employee data
+ */
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -17,6 +20,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    /**
+     * Create employee data
+     * @param employee employee
+     * @return employee
+     */
     @Override
     public Employee create(Employee employee) {
         LOG.debug("Creating employee [{}]", employee);
@@ -27,6 +35,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
+    /**
+     * Read employee data
+     * @param id id
+     * @return employee
+     */
     @Override
     public Employee read(String id) {
         LOG.debug("Creating employee with id [{}]", id);
@@ -40,6 +53,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
+    /**
+     * Update employee data
+     * @param employee employee
+     * @return employee
+     */
     @Override
     public Employee update(Employee employee) {
         LOG.debug("Updating employee [{}]", employee);

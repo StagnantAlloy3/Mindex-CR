@@ -20,6 +20,9 @@ public class DataBootstrap {
     @Autowired
     private ObjectMapper objectMapper;
 
+    /**
+     * Initializes the database with the employee data
+     */
     @PostConstruct
     public void init() {
         InputStream inputStream = this.getClass().getResourceAsStream(DATASTORE_LOCATION);

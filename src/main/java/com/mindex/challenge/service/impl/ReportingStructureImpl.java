@@ -21,6 +21,11 @@ public class ReportingStructureImpl implements ReportingStructureService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    /**
+     * Read the number of reports for a given employee
+     * @param id the employee ID
+     * @return the ReportingStructure object
+     */
 
     //Define the read method as tasked in Task 1 to retrieve the number of direct reports for a given employee
     @Override
@@ -44,6 +49,13 @@ public class ReportingStructureImpl implements ReportingStructureService {
         //Return the ReportingStructure object
         return reportingStructure;
     }
+
+    /**
+     * Recursively get the number of reports for the given employee
+     * @param id the employee ID
+     * @param dirreports the HashSet to track the reports
+     * @return the HashSet of reports
+     */
 
     //Recursively get the number of reports for the given employee
     private HashSet<String> getNumberOfReports(String id, HashSet<String> dirreports) {

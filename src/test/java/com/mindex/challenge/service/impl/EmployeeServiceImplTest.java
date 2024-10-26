@@ -18,6 +18,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+/**
+ * Test class for EmployeeServiceImpl
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class EmployeeServiceImplTest {
@@ -40,6 +43,9 @@ public class EmployeeServiceImplTest {
         employeeIdUrl = "http://localhost:" + port + "/employee/{id}";
     }
 
+    /**
+     * Test create, read, and update operations for Employee
+     */
     @Test
     public void testCreateReadUpdate() {
         Employee testEmployee = new Employee();
@@ -77,6 +83,11 @@ public class EmployeeServiceImplTest {
         assertEmployeeEquivalence(readEmployee, updatedEmployee);
     }
 
+    /**
+     * Helper method to assert equivalence between two Employee objects
+     * @param expected Expected Employee object
+     * @param actual Actual Employee object
+     */
     private static void assertEmployeeEquivalence(Employee expected, Employee actual) {
         assertEquals(expected.getFirstName(), actual.getFirstName());
         assertEquals(expected.getLastName(), actual.getLastName());

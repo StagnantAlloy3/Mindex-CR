@@ -7,6 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST controller for Compensation related endpoints.
+ */
 @RestController
 public class CompensationController {
 
@@ -15,6 +18,11 @@ public class CompensationController {
     @Autowired
     private CompensationService compensationService;
 
+    /**
+     * Create a new Compensation object.
+     * @param compensation Compensation object to be created.
+     * @return Created Compensation object.
+     */
     @PostMapping("/compensation")
     public Compensation create(@RequestBody Compensation compensation) {
         LOG.debug("Received compensation create request for [{}]", compensation);
@@ -22,6 +30,11 @@ public class CompensationController {
         return compensationService.create(compensation);
     }
 
+    /**
+     * Read a Compensation object by employee id.
+     * @param id Employee id.
+     * @return Compensation object.
+     */
     @GetMapping("/compensation/{id}")
     public Compensation read(@PathVariable String id) {
         LOG.debug("Received compensation read request for id [{}]", id);
