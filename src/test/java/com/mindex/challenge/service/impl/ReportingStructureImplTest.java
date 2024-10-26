@@ -72,7 +72,7 @@ public class ReportingStructureImplTest {
 
     /*
      *Wanted to test the case where an employee is a direct report of multiple employees.
-     *Current code does not seems to be set for that, causing infinite recursion.
+     *Current code does not seem to be set for that, causing infinite recursion.
      *I would have to change the code to allow for that, but I am not sure if that is the intended behavior.
      */
 
