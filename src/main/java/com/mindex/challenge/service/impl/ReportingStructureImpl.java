@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
-import java.util.List;
 
 @Service
 public class ReportingStructureImpl implements ReportingStructureService {
@@ -26,6 +25,7 @@ public class ReportingStructureImpl implements ReportingStructureService {
     //Define the read method as tasked in Task 1 to retrieve the number of direct reports for a given employee
     @Override
     public ReportingStructure read(String id) {
+        LOG.debug("Calculating numberOfReports for employeeId [{}]", id);
 
         //Get the employee by their ID
         Employee employee = employeeRepository.findByEmployeeId(id);
